@@ -1,0 +1,198 @@
+{% extends 'adminBase.html' %}
+
+{% block title %}  <title>Hubiye | Add Company</title> {% endblock %}
+
+
+{% block body %}
+<div aria-live="polite" aria-atomic="true">
+  <!-- Position it -->
+  <div style="position: fixed; top: 4.5rem; right: 1rem; z-index: 1050">
+    <!-- .toast -->
+    <div id="submitfeedback" class="toast bg-dark border-dark text-light fade hide" data-delay="3000" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header bg-primary text-white"> See your browser console </div>
+      <div class="toast-body">
+        <strong>Congrats!</strong> You see the submit feedback. </div>
+    </div><!-- /.toast -->
+  </div>
+</div><!-- /toasts container -->
+
+<div class="section-block">
+  <!-- Default Steps -->
+  <!-- .bs-stepper -->
+  <div id="stepper" class="bs-stepper">
+    <!-- .card -->
+    <div class="card">
+      <!-- .card-header -->
+      <div class="card-header">
+        {% with msg = get_flashed_messages() %}
+        {% if msg %}
+        {% for  msgs in msg %}
+            <div class='alert alert-success col-md-12' id="msg">
+                <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                <span aria-hidden='true'>&times;</span>
+                </button> {{ msg }} 
+            </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <!-- .steps -->
+        <div class="steps steps-" role="tablist">
+          <ul>
+            <li class="step" data-target="#test-l-1" data-validate="fieldset01">
+              <a href="#" class="step-trigger" tabindex="-1"><span class="step-indicator step-indicator-icon"><i class="oi oi-account-login"></i></span> <span class="d-none d-sm-inline">Company detail</span></a>
+            </li>
+            <li class="step" data-target="#test-l-2" data-validate="fieldset02">
+              <a href="#" class="step-trigger" tabindex="-1"><span class="step-indicator step-indicator-icon"><i class="oi oi-person"></i></span> <span class="d-none d-sm-inline">Representative</span></a>
+            </li>
+          </ul>
+        </div><!-- /.steps -->
+      </div><!-- /.card-header -->
+      <!-- .card-body -->
+      <div class="card-body">
+        <form id="stepper-form" method="POST" action="{{ url_for('add_new_comp') }}" name="stepperForm" class="p-lg-4 p-sm-3 p-0">
+          <!-- .content -->
+          <div id="test-l-1" class="content dstepper-none fade">
+            <!-- fieldset -->
+            <fieldset>
+              <legend>Provide company details</legend> <!-- .form-group -->
+              <div class="row">
+                <div class="form-group mb-4 col-md-4">
+                  <div class="form-label-group">
+                    <input type="text" id="com_name" name="com_name" class="form-control" value="{{ request.form.com_name }}" autocomplete="off" data-parsley-group="fieldset01" required="" > <label for="com_name">Company name</label>
+                </div>
+                </div><!-- /.form-group -->
+
+
+                <div class="form-group col-md-4">
+                  <div class="form-group">
+                      <div class="form-label-group">
+                        <select class="custom-select" id=""  name='com_type_id' data-parsley-group="fieldset01" required="">
+                          
+                          {% for ctype in ctypes %}
+                            <option value="{{ ctype.com_type_id }}">{{  ctype.name }} </option>
+                          {% endfor %}
+                        </select> <label for="">Company Type </label>
+                      </div>
+                    </div><!-- /.form-group -->
+                </div><!-- /.form-group -->
+
+                <div class="form-group col-md-4">
+                  <div class="form-group">
+                      <div class="form-label-group">
+                        <select class="custom-select" id="" name='city_id' data-parsley-group="fieldset01" required="" >
+                          {% for c in city %}
+                            <option value="{{ c.city_id }}">{{ c.city_name }}</option>
+                          {% endfor %}
+                        </select> <label for="">City </label>
+                      </div>
+                    </div><!-- /.form-group -->
+                </div><!-- /.form-group -->
+
+        
+
+                <div class="form-group col-md-12">
+                  <label for="">Company description</label>
+                  <div class="card card-fluid">
+                      <!-- #summernote-basic -->
+                      <textarea name="com_desc" id="desc"  data-toggle="summernote" data-placeholder="Write here..." data-height="70"> {{ request.form.com_desc }} </textarea>
+                    </div><!-- /.card -->
+                </div>
+              
+                <div class="form-group mb-4 col-md-6">
+                  <div class="form-label-group">
+                    <input type="text" id="com_addr" name="com_addr" class="form-control" value=" {{ request.form.com_addr }}" autocomplete="off" data-parsley-group="fieldset01" required=""> <label for="userid">Company address</label>
+                  </div>
+                </div><!-- /.form-group -->
+
+                <div class="form-group mb-4 col-md-6">
+                  <div class="form-label-group">
+                    <input type="number" id="com_phone" name="com_phone" class="form-control" value="{{ request.form.com_phone }}" autocomplete="off" data-parsley-group="fieldset01" required=""> <label for="userid">Company phone </label>
+                  </div>
+                </div><!-- /.form-group -->
+                
+              </div>
+
+            
+              
+
+              <hr class="mt-5">
+              <!-- .d-flex -->
+              <div class="d-flex">
+                <p> Already have an account? Please <a href="#">Signin</a>. </p><button type="button" class="next btn btn-primary ml-auto" data-validate="fieldset01">Next step</button>
+              </div><!-- /.d-flex -->
+            </fieldset><!-- /fieldset -->
+          </div><!-- /.content -->
+          <!-- .content -->
+          <div id="test-l-2" class="content dstepper-none fade">
+            <!-- fieldset -->
+            <fieldset>
+              <legend>Representative Information</legend> <!-- .row -->
+              <div class="row">
+                <!-- grid column -->
+                <div class="col-md-6 mb-4">
+                  <div class="form-label-group">
+                    <input type="text" id="rfname" class="form-control" name="rfname" value="{{ request.form.rfname }}" data-parsley-group="fieldset02" required=""> <label for="firstName">Full name</label>
+                  </div>
+              
+                </div><!-- /grid column -->
+                <!-- grid column -->
+                <div class="col-md-6 mb-4">
+                  <div class="form-label-group">
+                    <input type="email" id="email" class="form-control" name="email" value="{{ request.form.email }}" data-parsley-group="fieldset02" required=""> <label for="lastName">Email Address</label>
+                  </div>
+                </div><!-- /grid column -->
+
+                <div class="col-md-6 mb-4">
+                  <div class="form-label-group">
+                    <input type="text" id="username" class="form-control" name="rusername" value="{{ request.form.rusername }}" data-parsley-group="fieldset02" required=""> <label for="rusername">Username</label>
+                  </div>
+                </div><!-- /grid column -->
+
+                <div class="col-md-6 mb-4">
+                  <div class="form-label-group">
+                    <input type="text" id="rphone" class="form-control" name="rphone" value="{{ request.form.rphone }}" data-parsley-group="fieldset02" required=""> <label for="rusername">Phone number</label>
+                  </div>
+                </div><!-- /grid column -->
+
+
+              </div><!-- /.row -->
+              <!-- .form-group -->
+ 
+      
+              <hr class="mt-5">
+              <div class="d-flex">
+                <button type="button" class="prev btn btn-secondary">Previous</button> <button type="submit" class="next btn btn-primary ml-auto" data-validate="fieldset02">Submit</button>
+              </div>
+            </fieldset><!-- /fieldset -->
+          </div><!-- /.content -->
+          <!-- .content -->
+
+        </form><!-- /form -->
+      </div><!-- /.card-body -->
+    </div><!-- /.card -->
+  </div><!-- /.bs-stepper -->
+  <!-- toasts container -->
+  <div aria-live="polite" aria-atomic="true">
+    <!-- Position it -->
+    <div style="position: fixed; top: 4.5rem; right: 1rem; z-index: 1050">
+      <!-- .toast -->
+      <div id="submitfeedback" class="toast bg-dark border-dark text-light fade hide" data-delay="3000" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-primary text-white"> See your browser console </div>
+        <div class="toast-body">
+          <strong>Congrats!</strong> You see the submit feedback. </div>
+      </div><!-- /.toast -->
+    </div>
+  </div><!-- /toasts container -->
+</div><!-- /.section-block -->
+    
+
+{% endblock %}
+
+
+<script>
+
+  
+
+</script>
+
+

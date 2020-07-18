@@ -1,0 +1,91 @@
+    <!--[if lt IE 10]>
+    <div class="page-message" role="alert">You are using an <strong>outdated</strong> browser. Please <a class="alert-link" href="http://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</div>
+    <![endif]-->
+    <!-- .app-header -->
+    <header class="app-header app-header-dark">
+      <!-- .top-bar -->
+      <div class="top-bar">
+        <!-- .top-bar-brand -->
+        <div class="top-bar-brand">
+          <!-- toggle aside menu -->
+          <button class="hamburger hamburger-squeeze mr-2" type="button" data-toggle="aside-menu" aria-label="toggle aside menu"><span class="hamburger-box"><span class="hamburger-inner"></span></span></button> <!-- /toggle aside menu -->
+          <a href="{{ url_for('index') }}"> <img src="{{ url_for('static', filename='admin/images/white-logo.png') }}" alt="Loo" height="30"> </a>
+        </div><!-- /.top-bar-brand -->
+        <!-- .top-bar-list -->
+        <div class="top-bar-list">
+          <!-- .top-bar-item -->
+          <div class="top-bar-item px-2 d-md-none d-lg-none d-xl-none">
+            <!-- toggle menu -->
+            <button class="hamburger hamburger-squeeze" type="button" data-toggle="aside" aria-label="toggle menu"><span class="hamburger-box"><span class="hamburger-inner"></span></span></button> <!-- /toggle menu -->
+          </div><!-- /.top-bar-item -->
+          <!-- .top-bar-item -->
+          <div class="top-bar-item top-bar-item-full">
+            <!-- .top-bar-search -->
+            <form class="top-bar-search">
+              <!-- .input-group -->
+              <div class="input-group input-group-search dropdown">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><span class="oi oi-magnifying-glass"></span></span>
+                </div><input type="text" class="form-control" data-toggle="dropdown" aria-label="Search" placeholder="Search"> <!-- .dropdown-menu -->
+
+              </div><!-- /.input-group -->
+            </form><!-- /.top-bar-search -->
+          </div><!-- /.top-bar-item -->
+          <!-- .top-bar-item -->
+          <div class="top-bar-item top-bar-item-right px-0 d-none d-sm-flex">
+            <!-- .nav -->
+            <ul class="header-nav nav">
+              <!-- .nav-item -->
+              <li class="nav-item dropdown header-nav-dropdown has-notified">
+                <a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="oi oi-pulse"></span></a> <!-- .dropdown-menu -->
+                <div class="dropdown-menu dropdown-menu-rich dropdown-menu-right">
+                  <div class="dropdown-arrow"></div>
+                  <h6 class="dropdown-header stop-propagation">
+                    <span>Companies request <span class="badge">(2)</span></span>
+                  </h6><!-- .dropdown-scroll -->
+                  <div class="dropdown-scroll perfect-scrollbar">
+                    <!-- .dropdown-item -->
+                    <a href="#" class="dropdown-item unread">
+                      <div class="user-avatar">
+                        <img src="assets/images/avatars/uifaces15.jpg" alt="">
+                      </div>
+                      <div class="dropdown-item-body">
+                        <p class="text"> Somplastic company </p><span class="date">Just now</span>
+                      </div>
+                    </a> <!-- /.dropdown-item -->
+                  </div><!-- /.dropdown-scroll -->
+                  <a href="user-activities.html" class="dropdown-footer">All activities <i class="fas fa-fw fa-long-arrow-alt-right"></i></a>
+                </div><!-- /.dropdown-menu -->
+              </li><!-- /.nav-item -->
+              
+            </ul><!-- /.nav -->
+            <!-- .btn-account -->
+            <div class="dropdown d-none d-md-flex">
+              <button class="btn-account" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="user-avatar user-avatar-md"><img src="../static/admin/images/{{ session['pimage'] }}" alt=""></span> <span class="account-summary pr-lg-4 d-none d-lg-block"><span class="account-name">{{ session['fname'] }}</span> <span class="account-description"></span></span></button> <!-- .dropdown-menu -->
+              <div class="dropdown-menu">
+                <div class="dropdown-arrow d-lg-none" x-arrow=""></div>
+                <div class="dropdown-arrow ml-3 d-none d-lg-block"></div>
+                <h6 class="dropdown-header d-none d-md-block d-lg-none"> {{ session['fname'] }} </h6>  <a class="dropdown-item" href="{{ url_for('user_setting') }}"><span class="dropdown-icon oi oi-account-logout"></span> Account setting</a><div class="dropdown-divider"></div> <a class="dropdown-item" href="{{ url_for('logout') }}"><span class="dropdown-icon oi oi-account-logout"></span> Logout</a>
+                
+              </div><!-- /.dropdown-menu -->
+            </div><!-- /.btn-account -->
+          </div><!-- /.top-bar-item -->
+        </div><!-- /.top-bar-list -->
+      </div><!-- /.top-bar -->
+    </header><!-- /.app-header -->
+    <!-- .app-aside -->
+    <aside class="app-aside app-aside-expand-md app-aside-light">
+      <!-- .aside-content -->
+      <div class="aside-content">
+        <!-- .aside-header -->
+        <header class="aside-header d-block d-md-none">
+          <!-- .btn-account -->
+          <button class="btn-account" type="button" data-toggle="collapse" data-target="#dropdown-aside"><span class="user-avatar user-avatar-lg"><img src="{{ url_for('static',filename='admin/images/IMG_4798.JPG') }}" alt=""></span> <span class="account-icon"><span class="fa fa-caret-down fa-lg"></span></span> <span class="account-summary"><span class="account-name">{{ session['fname'] }}</span> <span class="account-description"></span></span></button> <!-- /.btn-account -->
+          <!-- .dropdown-aside -->
+          <div id="dropdown-aside" class="dropdown-aside collapse">
+            <!-- dropdown-items -->
+            <div class="pb-3">
+               <a class="dropdown-item" href="{{ url_for('logout') }}"><span class="dropdown-icon oi oi-account-logout"></span> Logout</a>
+             
+          </div><!-- /.dropdown-aside -->
+        </header><!-- /.aside-header -->

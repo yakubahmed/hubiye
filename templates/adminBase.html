@@ -1,0 +1,82 @@
+{% include 'includes/_adminHeader.html' %}
+{% block title %}  {% endblock %}
+<body>
+  <!-- .app -->
+  <div class="app">
+      {% include 'includes/_adminNav.html' %}
+        <!-- .aside-menu -->
+      {% include 'includes/_adminSidebar.html' %}
+
+
+
+       <!-- .app-main -->
+       <main class="app-main">
+        <!-- .wrapper -->
+        <div class="wrapper">
+          <!-- .page -->
+          <div class="page">
+            <!-- .page-inner -->
+            <div class="page-inner">
+              <!-- .page-title-bar -->
+
+              <!-- .page-section -->
+              <div class="page-section">
+               
+                {% block body %}
+                {% endblock %}
+
+              </div><!-- /.page-section -->
+            </div><!-- /.page-inner -->
+          </div><!-- /.page -->
+        </div><!-- .app-footer -->
+        <footer class="app-footer">
+
+          <div class="copyright"> Copyright © 2020. All right reserved. </div>
+        </footer><!-- /.app-footer -->
+        <!-- /.wrapper -->
+      </main><!-- /.app-main -->
+    </div><!-- /.app -->
+
+  {% include 'includes/_adminFooter.html' %}
+ <script>
+       $('.btn-danger').on('click', function(e){
+        e.preventDefault();
+        const href = $(this).attr('href')
+
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+          if (result.value) {
+            document.location.href=href;
+          }
+        })
+    }) 
+
+    $('.btn-info').on('click', function(e){
+        e.preventDefault();
+        const href = $(this).attr('href')
+
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You want to edit this record",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+          if (result.value) {
+            document.location.href=href;
+          }
+        })
+    }) 
+ </script>
+</body>
+
+</html>

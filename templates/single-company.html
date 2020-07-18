@@ -1,0 +1,122 @@
+{% extends 'adminBase.html' %}
+
+{% block title %}  <title> Company detail | Hubiye</title> {% endblock %}
+
+
+{% block body %}
+
+
+
+<div class="card print">
+    <div class="card-header "> Company detail </div>
+
+    <div class="card-body border-top" id='print'>
+        <div class="form-group col-md-6">
+            <button class='btn btn-secondary' id='btnPrint'> Print </button>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <h4> Company Information </h4>
+            </div>
+            <div class="col-md-6">
+                <p class='text-right'> <strong>Registered date: {{row.reg_date}} </strong></p>
+            </div>
+        </div>
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-striped">
+
+                <thead>
+                    <tr>
+                        
+                        <th>Company name</th>
+                        <th>City</th>
+                        <th>Category</th>
+                        <th>Address</th>
+                        <th>Phone number</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{row.comp_name}}</td>
+                        <td>{{row.city_name}}</td>
+                        <td>{{row.name}}</td>
+                        <td>{{row.comp_address}}</td>
+                        <td>{{row.comp_phone}}</td>
+                    </tr>
+                </tbody>
+
+                <thead>
+                    <tr>
+                        <th colspan="5">Company description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="5" >{{ row.comp_description }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-bordered">
+                <h4>Representative Information</h4>
+                <thead>
+                    <tr>
+                        <th>Repsentative name: </th>
+                        <th>Email Address: </th>
+                        <th>Phone number: </th>
+                        <th>Username: </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{row.fullname}}</td>
+                        <td>{{row.email_address}}</td>
+                        <td>{{row.rep_phone}}</td>
+                        <td>{{row.usename}}</td>
+                    </tr>
+                </tbody>
+                
+            </table>
+        </div>
+
+        
+
+        <div class="form-group col-md-6">
+            <a href="{{ url_for('manage_company') }}" class='btn btn-success'>Previous</a>
+        </div>
+      
+    
+      </div><!-- /.card-body -->
+    </div><!-- /.card -->
+
+    <script>
+        $('documet').ready(function(){
+          
+            $('#btnPrint').on('click', function(){
+                //alert('Ok')
+                //printDiv();
+                var printContents = document.getElementById('print').innerHTML;
+                var originalContents = document.body.innerHTML;
+
+                document.body.innerHTML = printContents;
+
+                window.print();
+
+                document.body.innerHTML = originalContents;
+            })
+
+        })
+      </script>
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+

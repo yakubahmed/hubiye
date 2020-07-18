@@ -1,0 +1,61 @@
+{% include('includes/_adminHeader.html') %}
+
+{% block title %}  <title>Login | Hubiye</title> {% endblock %}
+
+{% if 'user_id' in session %}
+  <script> window.location = '/admin' </script>
+{% endif %}
+<main class="auth" >
+    <header id="auth-header" class="auth-header" style="background-image: url(assets/images/illustration/img-1.png);">
+      <h1>
+       <img src="{{ url_for('static', filename='admin/images/white-logo.png') }}" height="100" alt="Hubiye Logo"> <span class="sr-only">Sign In</span>
+      </h1>
+      </p>
+    </header><!-- form -->
+    <form class="auth-form" method='POST' action="{{ url_for('login') }}" >
+      {% with msg = get_flashed_messages() %}
+      {% if msg %}
+      {% for  msgs in msg %}
+          <div class='alert alert-danger col-md-12' id="msg">
+              <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+              <span aria-hidden='true'>&times;</span>
+              </button> {{ msg }} 
+          </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+      <!-- .form-group -->
+      <div class="form-group">
+        <div class="form-label-group">
+          <input type="text" id="inputUser" class="form-control" name="Username" value="{{ request.form.Username }}" placeholder="Username" autofocus="" autocomplete="off" required> <label for="inputUser">Username</label>
+        </div>
+      </div><!-- /.form-group -->
+      <!-- .form-group -->
+      <div class="form-group">
+        <div class="form-label-group">
+          <input type="password" id="inputPassword" class="form-control" name='Password' placeholder="Password"> <label for="inputPassword" required>Password</label>
+        </div>
+      </div><!-- /.form-group -->
+      <!-- .form-group -->
+      <div class="form-group">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
+      </div><!-- /.form-group -->
+      <!-- .form-group -->
+
+      <!-- recovery links -->
+      <div class="text-center pt-3">
+        <a href="#" class="link">Forgot Username?</a> <span class="mx-2">·</span> <a href="#" class="link">Forgot Password?</a>
+      </div><!-- /recovery links -->
+    </form><!-- /.auth-form -->
+    <!-- copyright -->
+    <footer class="auth-footer"> 
+      Made with 
+      <span>
+        <svg width="1em" height="1em" style='color:red;' viewBox="0 0 16 16" class="bi bi-heart-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+        </svg>
+      </span>
+      in SIMAD
+
+    </footer>
+  </main><!-- /.auth -->

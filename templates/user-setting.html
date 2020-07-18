@@ -1,0 +1,160 @@
+{% extends 'adminBase.html' %}
+
+{% block title %}  <title>Hubiye | User Setting</title> {% endblock %}
+
+
+{% block body %}
+<div class="card">
+    <div class="card-body border-top">
+        <!-- .form -->
+        
+          <!-- .fieldset -->
+          <fieldset>
+            <legend>{{ session['fname'] }} <small>Setting</small> </legend> <!-- .form-group -->
+            <div class="card shadow">
+                <form action="{{ url_for('update_user') }}" method="post">
+                    <div class="card-header bg-primary text-light">
+                        General 
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="">Full name</label>
+                                <input type="text" name="fname" id="" class="form-control" value="{{ session['fname'] }}">
+                            </div>
+    
+                            <div class="form-group col-md-6">
+                                <label for="">Email Adress</label>
+                                <input type="email" name="email" id="" class="form-control" value="{{ session['mail'] }}">
+                            </div>
+    
+                            <div class="form-group col-md-6">
+                                <label for="">Username</label>
+                                <input type="text" name="username" id="" class="form-control" value='{{ session["uname"] }}'>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="form-group my-2 mx-2">
+                            <input type="submit" value="Save Changes" class="btn btn-primary">
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="card">
+                <div class="card-header bg-success text-light">
+                    Password <small>setting</small>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('update_pwd') }}" method="POST">
+                        {% with msg = get_flashed_messages() %}
+                        {% if msg %}
+                        {% for  msgs in msg %}
+                            <div class='alert alert-success col-md-12' id="msg">
+                                <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                <span aria-hidden='true'>&times;</span>
+                                </button> {{ msg }} 
+                            </div>
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <div class="form-label-group">
+                                    <input type="password" class="form-control" name='currpwd'  placeholder="Current password" required> <label for="fl3">Current password</label>
+                                </div>
+                            </div>
+                  
+                            <div class="form-group col-md-4">
+                                <div class="form-label-group">
+                                    <input type="password" class="form-control" name='newpwd' placeholder="New password" required > <label for="fl3">New password</label>
+                                </div>
+                            </div>
+        
+                            <div class="form-group col-md-4">
+                                <div class="form-label-group">
+                                    <input type="password" class="form-control" name='cnewpwd' placeholder="Confirm Password"  required> <label for="fl3">Confirm Password</label>
+                                </div>
+                            </div>
+    
+                            <div class="form-group col-md-4">
+                                <input type="submit" value="Change password" class="btn btn-lg btn-block btn-success" >
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            <div class="card">
+                <form action="{{ url_for('change_image') }}" method="post" enctype="multipart/form-data">
+                    <div class="card-header bg-info text-light">
+                        Profile
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <center>
+                                    <img src="../static/admin/images/{{ session['pimage'] }}" id='dis_img' alt="" style='height:250px;width:250px; border-radius:50%; border:1px solid blue;'>
+                                </center>
+                            </div>
+                            <div class="col-md-6 my-4">
+                               
+                                    <label for="">Upload new profile picture</label>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" name='pimage' id='imgfile'> <label class="custom-file-label" for="tf3">Choose new image</label>
+                                    </div>
+                                    <hr>
+                                    <div class="form-group col-md-12">
+                                        <input type="submit" value="Update" class="btn btn-success btn-block">
+                                    </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-info text-light">
+                    Security
+                </div>
+                <div class="card-body"></div>
+            </div>
+          </fieldset><!-- /.fieldset -->
+       
+    
+        
+    
+      
+    
+      </div><!-- /.card-body -->
+    </div><!-- /.card -->
+
+
+
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                
+                reader.onload = function(e) {
+                $('#dis_img').attr('src', e.target.result);
+                }
+                
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+        }
+        
+        $("#imgfile").change(function() {
+          readURL(this);
+        });
+    </script>
+        
+
+{% endblock %}
+
+
+
+

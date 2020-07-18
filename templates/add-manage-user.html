@@ -1,0 +1,101 @@
+{% extends 'adminBase.html' %}
+
+{% block title %}  <title>Hubiye | add user </title> {% endblock %}
+
+
+{% block body %}  
+<div class="card">
+    <div class="card-body border-top">
+        <!-- .form -->
+        <form method="POST" enctype="multipart/form-data" action="{{ url_for('users') }}">
+          <!-- .fieldset -->
+          <fieldset>
+            <legend>Add new user</legend> <!-- .form-group -->
+            {% with msg = get_flashed_messages() %}
+            {% if msg %}
+            {% for  msgs in msg %}
+                <div class='alert alert-success col-md-12' id="msg">
+                    <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                    <span aria-hidden='true'>&times;</span>
+                    </button> <h5>{{ msg }} </h5>
+                </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <div class="form-label-group">
+                      <input type="text" class="form-control" id="fl3" placeholder="Full name" name='fname'  required> <label for="fl3">Full name</label>
+                    </div>
+                </div><!-- /.form-group -->
+
+                <div class="form-group col-md-6">
+                    <div class="form-label-group">
+                      <input type="email" class="form-control" id="fl3" placeholder="Email address" name='email' required> <label for="fl3">Email address</label>
+                    </div>
+                </div><!-- /.form-group -->
+
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add user" class="btn btn-success btn-block">
+            </div><!-- /.form-group -->
+          </fieldset><!-- /.fieldset -->
+        </form><!-- /.form -->
+    
+        <hr>
+    
+        <div class="table-responsive">
+    
+            
+    
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Full name </th>
+                        <th>Email Address </th>
+                        <th>Username</th>
+                        <th>Reg date</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if users %}
+                        {% for user in users %}
+                        <tr>
+                        <td>{{ user.user_id }}</td>
+                        <td>{{ user.fullname }} </td>
+                        <td>{{ user.email_address }}</td>
+                        <td>{{ user.usename }} </td>
+                        <td>2020-5-24 </td>
+                        
+                        <td>Active </td>
+                        <td>
+                            <a href="{{ url_for('delete_user', id=user.user_id) }}" class='btn btn-xs btn-danger' data-toggle="tooltip" data-placement="top" title="Delete user"> <span class="oi oi-trash"></span>  </a>
+                        </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="8"> <center > <strong>No records found</strong> </center> </td>
+                        </tr>
+                    {% endif %}
+
+                    
+
+                </tbody>
+            </table>
+        </div>
+      
+    
+      </div><!-- /.card-body -->
+    </div><!-- /.card -->
+
+
+    
+
+{% endblock %}
+
+
+

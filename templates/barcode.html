@@ -1,0 +1,71 @@
+{% extends 'adminBase.html' %}
+
+{% block title %}  <title> Barcode | Hubiye</title> {% endblock %}
+
+
+{% block body %}
+
+    <div class="col-md-12">
+        <div class="row">
+
+            <div class="form-group col-md-12">
+                <div class="card shadow print">
+                    <div class="card-header bg-secondary">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button class='btn btn-success' id="btnPrint"  > Print </button> 
+                            </div>
+                            <div class="col-md-6">
+                                <button type='button' class='float-right btn btn-secondary' id='plus'>+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body" id='print'>
+                        <img src="/static/images/{{ product.product_code }}" alt="Product">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('documet').ready(function(){
+            $('#plus').on('click', function(){
+                $barcode = '<img src="/static/images/{{ product.product_code }}" alt="Product">';
+                
+                $('.card-body').append($barcode)
+            })
+
+            $('#btnPrint').on('click', function(){
+                //alert('Ok')
+                //printDiv();
+                var printContents = document.getElementById('print').innerHTML;
+                var originalContents = document.body.innerHTML;
+
+                document.body.innerHTML = printContents;
+
+                window.print();
+
+                document.body.innerHTML = originalContents;
+            })
+
+        })
+      </script>
+
+<script>
+    function printDiv(){
+
+
+    }
+</script>
+      
+  
+
+{% endblock %}
+
+
+
+
+
+
+
