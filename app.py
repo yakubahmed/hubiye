@@ -140,7 +140,7 @@ def product():
         pcode = random.randint(10,5000000000000000)
         #QR CODE
         #qrgen(tex)
-        code = "127.0.0.1:5000/verify?p="+str(pcode)
+        code = "http://127.0.0.1:5000/product-description/"+str(pcode)
         qr = pyqrcode.create(code)
         qr.png('static/images/'+pname+str(pcode)+'.png',scale = 2)
 
@@ -255,17 +255,61 @@ def add_new_comp():
                     VALUES(:cname, :ctid, :cdesc, :cid, :caddr, :cphone, :rphone, :rdate, :status) \
                     ', {"cname":cname, "ctid":ctid, "cdesc":desc, "cid":cid, "caddr":addr, "cphone":cphone,  "rphone": rphone,  "rdate": currdate, "status":status})
             db.commit()
+            code =  randomString(10)
             c = db.execute("SELECT * FROM tbl_company WHERE comp_name=:name",{"name":cname}).fetchone()
-            user = db.execute("INSERT INTO tbl_login (fullname, email_address, usename, user_type, acc_id) \
-                VALUES(:fname, :ema, :uname, :type, :uid)", {"fname":rfname, "ema":remail, "uname":rusername, "type":'company', "uid":c.comp_id})
+            user = db.execute("INSERT INTO tbl_login (fullname, email_address, user_type, acc_id, ver_code) \
+                VALUES(:fname, :ema, :type, :uid, :code)", {"fname":rfname, "ema":remail,  "type":'company', "uid":c.comp_id, "code":code})
             db.commit()
             if company:
+                msg = Message("Welcome to Hubiye",
+                sender=('Hubiye', "info@hubiye.com"),
+                recipients=[remail])
+                msg.body = "Welcome to Hubiye"
+                msg.html = "Asc <b>" + cname +"</b>, ku soo dhawaaw hubiye app. si aad isku diiwan geliso fur lifaaqa hoose. \
+                <br> <a  href='http://127.0.0.1:5000/new-user/"  + code + "'>Click here<a>"
+                mail.send(msg)
+
                 flash("Company added successfully")
                 return redirect(url_for('add_new_comp'))
             else:
                 flash('Fialed to add')
         
     return render_template('addCompany.html', ctypes=ctype, city=City)
+
+@app.route('/admin/edit-company/<int:id>', methods=['POST','GET'])
+def edit_comp(id):
+    company = db.execute("SELECT * FROM tbl_company WHERE comp_id=:id", {'id':id}).fetchone()
+    user = db.execute("SELECT * FROM tbl_login WHERE acc_id=:id", {'id':id}).fetchone()
+    ctype = db.execute("SELECT * FROM tbl_company_type")
+    City = db.execute("SELECT * FROM tbl_city")
+    if request.method == "POST":
+        cname = request.form.get('com_name')
+        ctid = request.form.get('com_type_id')
+        cid = request.form.get('city_id')
+        desc = request.form.get('com_desc')
+        addr = request.form.get('com_addr')
+        cphone = request.form.get('com_phone')
+        rfname = request.form.get('rfname')
+        remail = request.form.get('email')
+        rusername = request.form.get('rusername')
+        rphone = request.form.get('rphone')
+        currdate = datetime.date.today()
+        status = 'active'
+        #Check if the company is already registered
+        #Inserting company details to the database
+        company = db.execute('UPDATE tbl_company SET comp_name=:cname,  com_type_id=:ctid, comp_description=:cdesc, city_id=:cid, comp_address=:caddr, \
+            comp_phone=:cphone, rep_phone=:rphone, reg_date=:rdate WHERE comp_id=:id \
+                ', {"cname":cname, "ctid":ctid, "cdesc":desc, "cid":cid, "caddr":addr, "cphone":cphone,  "rphone": rphone,  "rdate": currdate,  'id':id})
+        db.commit()
+        #c = db.execute("SELECT * FROM tbl_company WHERE comp_name=:name",{"name":cname}).fetchone()
+        use = db.execute("UPDATE tbl_login SET fullname=:fname, email_address=:ema, usename=:uname WHERE acc_id=:aid ", {"fname":rfname, "ema":remail, "uname":rusername, 'aid':user.acc_id})
+        db.commit()
+        flash('Info Updated successfully')
+        return redirect(url_for('manage_company'))
+            
+            
+
+    return render_template('edit-company.html', id=id, ctypes=ctype, city=City, company=company, user=user)
 
 @app.route('/admin/manage-company')
 def manage_company():
@@ -299,7 +343,7 @@ def users():
             return render_template('add-manage-user.html')
         else:
             code =  randomString(10)
-            db.execute("INSERT INTO tbl_login (fullname,email_address, ver_code, status, usert_type) VALUES (:fname,:mail,:vcode, 'active', 'admin')", {"fname":fullname,"mail":email, "vcode":code})
+            db.execute("INSERT INTO tbl_login (fullname,email_address, ver_code, status, user_type) VALUES (:fname,:mail,:vcode, 'active', 'admin')", {"fname":fullname,"mail":email, "vcode":code})
             db.commit()
             msg = Message("Welcome to Hubiye",
                 sender=('Hubiye', "info@hubiye.com"),
@@ -338,7 +382,7 @@ def new_user(key):
                     if db.execute("UPDATE tbl_login SET ver_code='' WHERE usename=:u", {'u':username}):
                         db.commit()
                         flash('your account is created succesfully, know you can login')
-                        return redirect('login')
+                        return redirect('logout')
             
 
     return render_template('new-user.html', code=key)
@@ -398,7 +442,10 @@ def update_pwd():
             flash('invalid password')
     return render_template('user-setting.html')
     
-     
+@app.route('/product-description/<p_code>')
+def pro_des(p_code):
+    product = db.execute("SELECT * FROM view_product WHERE product_code=:pc", {'pc':p_code}).fetchone()
+    return render_template('index.html', product=product)   
                 
 @app.route('/admin/profile/change-image', methods=['POST'])
 def change_image():
@@ -416,6 +463,71 @@ def change_image():
             file.save(os.path.join(UPLOAD_FOLDER, filename))
 
     return ""
+
+@app.route('/forgot/username', methods=['POST','GET'])
+def forgot_username():
+    if request.method == "POST":
+        email = request.form.get('email')
+        user = db.execute('SELECT * FROM tbl_login WHERE email_address=:e', {'e':email}).fetchone()
+        if user is not None:
+            msg = Message("Username reset request",
+            sender=('Hubiye', "info@hubiye.com"),
+            recipients=[email])
+            msg.body = "Username reset Hubiye"
+            msg.html = "Hello  <b>" + user.fullname +"</b>, you requested username reset. <br> \
+                your username is <b> " + user.usename +"</b>. "
+            mail.send(msg)
+            flash('Check your email. ')
+            return redirect(url_for('login'))
+        else:
+            flash('Email not found.')
+    
+    return render_template('forgot-username.html')
+
+@app.route('/forgot-password', methods=['POST','GET'])
+def forgot_password():
+    if request.method == "POST":
+        email = request.form.get('email')
+        user = db.execute('SELECT * FROM tbl_login WHERE email_address=:e', {'e':email}).fetchone()
+        vcode =  randomString(10) + user.usename
+
+
+        if user is not None:
+            code = db.execute("UPDATE tbl_login SET ver_code=:vcode WHERE email_address=:e", {'vcode':vcode,'e':email})
+            db.commit()
+            msg = Message("Password reset request",
+            sender=('Hubiye', "info@hubiye.com"),
+            recipients=[email])
+            msg.body = "Password reset Hubiye"
+            msg.html = "Hello  <b>" + user.fullname +"</b>, you requested password reset. <br> \
+              to recover your password click link below. <br> < a href='http://127.0.0.1/new-password/" + vcode + "'>Click here</a>"
+            mail.send(msg)
+            flash('Check your email. we sent you instructions ')
+            return redirect(url_for('forgot_password'))
+        else:
+            flash('Email not found.')
+    return render_template('forgot-password.html')
+
+@app.route('/new-password/<key>', methods=['POST','GET'])
+def new_password(key):
+    password = request.form.get('password')
+    cpassword = request.form.get('cpassword')
+    if not db.execute('SELECT * FROM tbl_login WHERE ver_code=:v',{'v':key}).fetchone():
+        flash('you dont have access to this page')
+        return redirect(url_for('login'))
+    if request.method == "POST":
+        user = db.execute("SELECT * FROM tbl_login WHERE ver_code=:v",{'v':key}).fetchone()
+        if password != cpassword:
+            flash('Password and confirm password does not match')
+        else:
+            if db.execute('UPDATE tbl_login SET password=:p WHERE ver_code=:vcode',{'p':password, 'vcode':key}):
+                db.commit()
+            if db.execute("UPDATE tbl_login SET ver_code='' WHERE email_address=:e", {'e':user.email_address}):
+                db.commit()
+            flash('your password is changes successfully')
+            return redirect(url_for('login'))
+
+    return render_template('new-password.html', key=key)
 
 if __name__ == "__main__":
     app.run(debug=True)

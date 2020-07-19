@@ -2,9 +2,7 @@
 
 {% block title %}  <title>Login | Hubiye</title> {% endblock %}
 
-{% if 'user_id' in session %}
-  <script> window.location = '/admin' </script>
-{% endif %}
+
 <main class="auth" >
     <header id="auth-header" class="auth-header" style="background-image: url(assets/images/illustration/img-1.png);">
       <h1>
@@ -12,7 +10,7 @@
       </h1>
       </p>
     </header><!-- form -->
-    <form class="auth-form" method='POST' action="{{ url_for('login') }}" >
+    <form class="auth-form" method='POST' action="{{ url_for('forgot_username') }}" >
       {% with msg = get_flashed_messages() %}
       {% if msg %}
       {% for  msgs in msg %}
@@ -27,24 +25,19 @@
       <!-- .form-group -->
       <div class="form-group">
         <div class="form-label-group">
-          <input type="text" id="inputUser" class="form-control" name="Username" value="{{ request.form.Username }}" placeholder="Username" autofocus="" autocomplete="off" required> <label for="inputUser">Username</label>
+          <input type="email" id="inputUser" class="form-control" name="email" value="{{ request.form.email }}" placeholder="Email Address" autofocus="" autocomplete="off" required> <label for="inputUser">Email Address</label>
         </div>
       </div><!-- /.form-group -->
+
       <!-- .form-group -->
       <div class="form-group">
-        <div class="form-label-group">
-          <input type="password" id="inputPassword" class="form-control" name='Password' placeholder="Password"> <label for="inputPassword" required>Password</label>
-        </div>
-      </div><!-- /.form-group -->
-      <!-- .form-group -->
-      <div class="form-group">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Reset</button>
       </div><!-- /.form-group -->
       <!-- .form-group -->
 
       <!-- recovery links -->
       <div class="text-center pt-3">
-        <a href="{{ url_for('forgot_username') }}" class="link">Forgot username</a> <span class="mx-2">·</span> <a href="{{ url_for('forgot_password') }}" class="link">Forgot Password?</a>
+        <span>I rememebr my username </span><a href="{{ url_for('login') }}" class="link">Login</a> 
       </div><!-- /recovery links -->
     </form><!-- /.auth-form -->
     <!-- copyright -->
