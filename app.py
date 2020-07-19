@@ -41,7 +41,7 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 Session(app)
 
 # Set up database
-engine = create_engine('postgresql://postgres:Me.Yakub@localhost:5432/product_verification')
+engine = create_engine('postgres://ecscjmaijmcnqj:ed862132500d08d40921acc54abb57c148370e89d6ec9d89ff2beed7136bbddd@ec2-54-165-36-134.compute-1.amazonaws.com:5432/d5jspseqo3dpsu')
 db = scoped_session(sessionmaker(bind=engine))
 
 #function that allows to generate radom text
