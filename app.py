@@ -489,7 +489,7 @@ def forgot_password():
     if request.method == "POST":
         email = request.form.get('email')
         user = db.execute('SELECT * FROM tbl_login WHERE email_address=:e', {'e':email}).fetchone()
-        vcode =  randomString(10) + user.usename
+        vcode =  randomString(10)
 
 
         if user is not None:
