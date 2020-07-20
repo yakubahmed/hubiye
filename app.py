@@ -23,7 +23,7 @@ qrcode = QRcode(app)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 mail  = Mail(app)
-app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_SERVER']='smtp.covid19-so.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USERNAME'] = 'hubiye@covid19-so.com'
