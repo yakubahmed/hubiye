@@ -471,7 +471,7 @@ def forgot_username():
         user = db.execute('SELECT * FROM tbl_login WHERE email_address=:e', {'e':email}).fetchone()
         if user is not None:
             msg = Message("Username reset request",
-            sender=('Hubiye', "info@hubiye.com"),
+            sender=('Hubiye', "hubiye@covid19-so.com"),
             recipients=[email])
             msg.body = "Username reset Hubiye"
             msg.html = "Hello  <b>" + user.fullname +"</b>, you requested username reset. <br> \
