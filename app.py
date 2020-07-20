@@ -140,7 +140,7 @@ def product():
         pcode = random.randint(10,5000000000000000)
         #QR CODE
         #qrgen(tex)
-        code = "http://127.0.0.1:5000/product-description/"+str(pcode)
+        code = "https://hubiye.herokuapp.com/product-description/"+str(pcode)
         qr = pyqrcode.create(code)
         qr.png('static/images/'+pname+str(pcode)+'.png',scale = 2)
 
@@ -262,11 +262,11 @@ def add_new_comp():
             db.commit()
             if company:
                 msg = Message("Welcome to Hubiye",
-                sender=('Hubiye', "info@hubiye.com"),
+                sender=('Hubiye', "hubiye@covid19-so.com"),
                 recipients=[remail])
                 msg.body = "Welcome to Hubiye"
                 msg.html = "Asc <b>" + cname +"</b>, ku soo dhawaaw hubiye app. si aad isku diiwan geliso fur lifaaqa hoose. \
-                <br> <a  href='http://127.0.0.1:5000/new-user/"  + code + "'>Click here<a>"
+                <br> <a  href='https://hubiye.herokuapp.com/new-user/"  + code + "'>Click here<a>"
                 mail.send(msg)
 
                 flash("Company added successfully")
@@ -500,7 +500,7 @@ def forgot_password():
             recipients=[email])
             msg.body = "Password reset Hubiye"
             msg.html = "Hello  <b>" + user.fullname +"</b>, you requested password reset. <br> \
-              to recover your password click link below. <br> < a href='http://127.0.0.1/new-password/" + vcode + "'>Click here</a>"
+              to recover your password click link below. <br> < a href='https://hubiye.herokuapp.com/" + vcode + "'>Click here</a>"
             mail.send(msg)
             flash('Check your email. we sent you instructions ')
             return redirect(url_for('forgot_password'))
