@@ -140,7 +140,7 @@ def product():
         pcode = random.randint(10,5000000000000000)
         #QR CODE
         #qrgen(tex)
-        code = "https://hubiye.herokuapp.com/product-description/"+str(pcode)
+        code = "https://hubiye.herokuapp.com/product-description/"+pname+str(pcode)+'.png'
         qr = pyqrcode.create(code)
         qr.png('static/images/'+pname+str(pcode)+'.png',scale = 2)
 
