@@ -140,7 +140,7 @@ def product():
         pcode = random.randint(10,5000000000000000)
         #QR CODE
         #qrgen(tex)
-        code = "https://hubiye.herokuapp.com/product-description/"+pname+str(pcode)+'.png'
+        code = "https://hubiye.herokuapp.com/product-description/"+str(pcode)+edate
         qr = pyqrcode.create(code)
         qr.png('static/images/'+pname+str(pcode)+'.png',scale = 2)
 
@@ -148,7 +148,7 @@ def product():
         #return send_file(filename,as_attachment=True)
 
         status='active'
-        if db.execute("INSERT INTO tbl_product (product_name, comp_id, description, man_date, exp_date, status, product_code ) VALUES(:pname, :cid, :des, :mdate, :edate, :status, :pcode)",{"pname":pname, "cid":com_id, "des":pdesc, "mdate":mdate, "edate":edate, "status":status, "pcode":pname+str(pcode)+'.png'}):
+        if db.execute("INSERT INTO tbl_product (product_name, comp_id, description, man_date, exp_date, status, product_code, code ) VALUES(:pname, :cid, :des, :mdate, :edate, :status, :pcode, :c)",{"pname":pname, "cid":com_id, "des":pdesc, "mdate":mdate, "edate":edate, "status":status, "pcode":pname+str(pcode)+'.png', 'c':code}):
             db.commit()
             send_file(filename,as_attachment=True)
             flash('Product added successfully')
