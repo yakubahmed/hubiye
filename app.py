@@ -500,7 +500,7 @@ def forgot_password():
             recipients=[email])
             msg.body = "Password reset Hubiye"
             msg.html = "Hello  <b>" + user.fullname +"</b>, you requested password reset. <br> \
-              to recover your password click link below. <br> < a href='https://hubiye.herokuapp.com/" + vcode + "'>Click here</a>"
+              to recover your password click link below. <br> https://hubiye.herokuapp.com/new-password/" + vcode + "' "
             mail.send(msg)
             flash('Check your email. we sent you instructions ')
             return redirect(url_for('forgot_password'))
