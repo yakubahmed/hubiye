@@ -444,7 +444,7 @@ def update_pwd():
     
 @app.route('/product-description/<p_code>')
 def pro_des(p_code):
-    product = db.execute("SELECT * FROM view_product WHERE code=:pc", {'pc':p_code}).fetchone()
+    product = db.execute("SELECT * FROM tbl_product WHERE code=:pc", {'pc':p_code}).fetchone()
     return render_template('index.html', product=product)   
                 
 @app.route('/admin/profile/change-image', methods=['POST'])
