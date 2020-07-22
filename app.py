@@ -27,7 +27,7 @@ app.config['MAIL_SERVER']='mail.covid19-so.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USERNAME'] = 'hubiye@covid19-so.com'
-app.config['MAIL_PASSWORD'] = 'Yakub@2019'
+app.config['MAIL_PASSWORD'] = 'Me.Yakub@2019'
 mail  = Mail(app)
 
 # Check for environment variable
