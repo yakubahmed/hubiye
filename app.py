@@ -23,10 +23,10 @@ qrcode = QRcode(app)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 mail  = Mail(app)
-app.config['MAIL_SERVER']='mail.covid19-so.com'
+app.config['MAIL_SERVER']='mail.somteso.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_USERNAME'] = 'hubiye@covid19-so.com'
+app.config['MAIL_USERNAME'] = 'hubiye@somteso.com'
 app.config['MAIL_PASSWORD'] = 'Me.Yakub@2019'
 mail  = Mail(app)
 
@@ -262,7 +262,7 @@ def add_new_comp():
             db.commit()
             if company:
                 msg = Message("Welcome to Hubiye",
-                sender=('Hubiye', "hubiye@covid19-so.com"),
+                sender=('Hubiye', "hubiye@somteso.com"),
                 recipients=[remail])
                 msg.body = "Welcome to Hubiye"
                 msg.html = "Asc <b>" + cname +"</b>, ku soo dhawaaw hubiye app. si aad isku diiwan geliso fur lifaaqa hoose. \
@@ -346,7 +346,7 @@ def users():
             db.execute("INSERT INTO tbl_login (fullname,email_address, ver_code, status, user_type) VALUES (:fname,:mail,:vcode, 'active', 'admin')", {"fname":fullname,"mail":email, "vcode":code})
             db.commit()
             msg = Message("Welcome to Hubiye",
-                sender=('Hubiye', "hubiye@covid19-so.com"),
+                sender=('Hubiye', "hubiye@somteso.com"),
                 recipients=[email])
             msg.body = "Welcome to Hubiye"
             msg.html = "Asc <b>" + fullname +"</b>, ku soo dhawaaw hubiye app. si aad isku diiwan geliso fur lifaaqa hoose. \
@@ -471,7 +471,7 @@ def forgot_username():
         user = db.execute('SELECT * FROM tbl_login WHERE email_address=:e', {'e':email}).fetchone()
         if user is not None:
             msg = Message("Username reset request",
-            sender=('Hubiye', "hubiye@covid19-so.com"),
+            sender=('Hubiye', "hubiye@somteso.com"),
             recipients=[email])
             msg.body = "Username reset Hubiye"
             msg.html = "Hello  <b>" + user.fullname +"</b>, you requested username reset. <br> \
