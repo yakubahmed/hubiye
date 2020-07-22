@@ -346,11 +346,11 @@ def users():
             db.execute("INSERT INTO tbl_login (fullname,email_address, ver_code, status, user_type) VALUES (:fname,:mail,:vcode, 'active', 'admin')", {"fname":fullname,"mail":email, "vcode":code})
             db.commit()
             msg = Message("Welcome to Hubiye",
-                sender=('Hubiye', "info@hubiye.com"),
+                sender=('Hubiye', "hubiye@covid19-so.com"),
                 recipients=[email])
             msg.body = "Welcome to Hubiye"
             msg.html = "Asc <b>" + fullname +"</b>, ku soo dhawaaw hubiye app. si aad isku diiwan geliso fur lifaaqa hoose. \
-                <br> <a  href='http://127.0.0.1:5000/new-user/"  + code + "'>Click here<a>"
+                <br> <a  href='https://hubiye.herokuapp.com/new-user/"  + code + "'>Click here<a>"
             mail.send(msg)
          
             #Here is place to send an email to the user
