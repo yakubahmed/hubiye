@@ -140,7 +140,7 @@ def product():
         pcode = random.randint(10,5000000000000000)
         #QR CODE
         #qrgen(tex)
-        code = "https://hubiye.herokuapp.com/product-description/"+str(pcode)+edate
+        code = "https://hubiye.herokuapp.com/product-description/"+str(pcode)
         qr = pyqrcode.create(code)
         qr.png('static/images/'+pname+str(pcode)+'.png',scale = 2)
 
@@ -148,7 +148,7 @@ def product():
         #return send_file(filename,as_attachment=True)
 
         status='active'
-        if db.execute("INSERT INTO tbl_product (product_name, comp_id, description, man_date, exp_date, status, product_code, code ) VALUES(:pname, :cid, :des, :mdate, :edate, :status, :pcode, :c)",{"pname":pname, "cid":com_id, "des":pdesc, "mdate":mdate, "edate":edate, "status":status, "pcode":pname+str(pcode)+'.png', 'c':str(pcode)+edate}):
+        if db.execute("INSERT INTO tbl_product (product_name, comp_id, description, man_date, exp_date, status, product_code ) VALUES(:pname, :cid, :des, :mdate, :edate, :status, :pcode)",{"pname":pname, "cid":com_id, "des":pdesc, "mdate":mdate, "edate":edate, "status":status, "pcode":pname+str(pcode)+'.png'}):
             db.commit()
             send_file(filename,as_attachment=True)
             flash('Product added successfully')
@@ -346,11 +346,11 @@ def users():
             db.execute("INSERT INTO tbl_login (fullname,email_address, ver_code, status, user_type) VALUES (:fname,:mail,:vcode, 'active', 'admin')", {"fname":fullname,"mail":email, "vcode":code})
             db.commit()
             msg = Message("Welcome to Hubiye",
-                sender=('Hubiye', "hubiye@covid19-so.com"),
+                sender=('Hubiye', "info@hubiye.com"),
                 recipients=[email])
             msg.body = "Welcome to Hubiye"
             msg.html = "Asc <b>" + fullname +"</b>, ku soo dhawaaw hubiye app. si aad isku diiwan geliso fur lifaaqa hoose. \
-                <br> "https://hubiye.herokuapp.com/new-user/"+code
+                <br> <a  href='http://127.0.0.1:5000/new-user/"  + code + "'>Click here<a>"
             mail.send(msg)
          
             #Here is place to send an email to the user
@@ -444,7 +444,7 @@ def update_pwd():
     
 @app.route('/product-description/<p_code>')
 def pro_des(p_code):
-    product = db.execute("SELECT * FROM view_product WHERE code=:pc", {'pc':p_code}).fetchone()
+    product = db.execute("SELECT * FROM view_product WHERE product_code=:pc", {'pc':p_code}).fetchone()
     return render_template('index.html', product=product)   
                 
 @app.route('/admin/profile/change-image', methods=['POST'])
@@ -500,7 +500,7 @@ def forgot_password():
             recipients=[email])
             msg.body = "Password reset Hubiye"
             msg.html = "Hello  <b>" + user.fullname +"</b>, you requested password reset. <br> \
-              to recover your password click link below. <br> https://hubiye.herokuapp.com/new-password/" + vcode + "' "
+              to recover your password click link below. <br> < a href='https://hubiye.herokuapp.com/" + vcode + "'>Click here</a>"
             mail.send(msg)
             flash('Check your email. we sent you instructions ')
             return redirect(url_for('forgot_password'))
