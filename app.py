@@ -496,7 +496,7 @@ def forgot_password():
             code = db.execute("UPDATE tbl_login SET ver_code=:vcode WHERE email_address=:e", {'vcode':vcode,'e':email})
             db.commit()
             msg = Message("Password reset request",
-            sender=('Hubiye', "hubiye@covid19-so.com"),
+            sender=('Hubiye', "hubiye@somteso.com"),
             recipients=[email])
             msg.body = "Password reset Hubiye"
             msg.html = "Hello  <b>" + user.fullname +"</b>, you requested password reset. <br> \
