@@ -350,7 +350,7 @@ def users():
                 recipients=[email])
             msg.body = "Welcome to Hubiye"
             msg.html = "Asc <b>" + fullname +"</b>, ku soo dhawaaw hubiye app. si aad isku diiwan geliso fur lifaaqa hoose. \
-                <br> <a  href='http://127.0.0.1:5000/new-user/"  + code + "'>Click here<a>"
+                <br>  https://hubiye.herokuapp.com/new-user/"  + code 
             mail.send(msg)
          
             #Here is place to send an email to the user
