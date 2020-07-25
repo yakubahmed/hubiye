@@ -71,19 +71,19 @@
           <label for="">Company description</label>
           <div class="card card-fluid">
               <!-- #summernote-basic -->
-              <textarea name="com_desc" id="desc"  data-toggle="summernote" data-placeholder="Write here..." data-height="70"> {{ request.form.com_desc }} </textarea>
+              <textarea name="com_desc" id="desc"  data-toggle="summernote" data-placeholder="Write here..." data-height="70" minlength='30' maxlength='200'> {{ request.form.com_desc }} </textarea>
             </div><!-- /.card -->
         </div>
       
         <div class="form-group mb-4 col-md-4">
           <div class="form-label-group">
-            <input type="text" id="com_addr" name="com_addr" class="form-control" value="{{ request.form.com_addr }}" autocomplete="off" data-parsley-group="fieldset01" required=""> <label for="userid">Company address</label>
+            <input type="text" id="com_addr" name="com_addr" class="form-control" value="{{ request.form.com_addr }}" autocomplete="off" data-parsley-group="fieldset01" required="" minlength='5' maxlength='50'> <label for="userid">Company address</label>
           </div>
         </div><!-- /.form-group -->
 
         <div class="form-group mb-4 col-md-8">
           <div class="form-label-group">
-            <input type="number" id="com_phone" name="com_phone" class="form-control" value="{{ request.form.com_phone }}" autocomplete="off" data-parsley-group="fieldset01" required=""> <label for="userid">Company phone </label>
+            <input type="number" id="com_phone" name="com_phone" class="form-control" value="{{ request.form.com_phone }}" autocomplete="off" data-parsley-group="fieldset01" required="" minlength='9' maxlength='12'> <label for="userid">Company phone </label>
           </div>
         </div><!-- /.form-group -->
        
@@ -94,14 +94,14 @@
 
         <div class="col-md-4 mb-4">
           <div class="form-label-group">
-            <input type="text" id="rfname" class="form-control" name="rfname" value="{{ request.form.rfname }}" data-parsley-group="fieldset02" required=""> <label for="firstName">Full name</label>
+            <input type="text" id="rfname" class="form-control" name="rfname" value="{{ request.form.rfname }}" data-parsley-group="fieldset02" required="" minlength='5' maxlength='40'> <label for="firstName">Full name</label>
           </div>
       
         </div><!-- /grid column -->
         <!-- grid column -->
         <div class="col-md-4 mb-4">
           <div class="form-label-group">
-            <input type="email" id="email" class="form-control" name="email" value="{{ request.form.email }}" data-parsley-group="fieldset02" required=""> <label for="lastName">Email Address</label>
+            <input type="email" id="email" class="form-control" name="email" value="{{ request.form.email }}" data-parsley-group="fieldset02" required="" minlength='5' maxlength='40'> <label for="lastName">Email Address</label>
           </div>
         </div><!-- /grid column -->
 
@@ -109,7 +109,7 @@
 
         <div class="col-md-4 mb-4">
           <div class="form-label-group">
-            <input type="text" id="rphone" class="form-control" name="rphone" value="{{ request.form.rphone }}" data-parsley-group="fieldset02" required=""> <label for="rusername">Phone number</label>
+            <input type="text" id="rphone" class="form-control" name="rphone" value="{{ request.form.rphone }}" data-parsley-group="fieldset02" required="" minlength='5' maxlength='40'> <label for="rusername">Phone number</label>
           </div>
         </div><!-- /grid column -->
 

@@ -1,0 +1,75 @@
+{% extends 'adminBase.html' %}
+
+{% block title %}  <title>Hubiye | add product</title> {% endblock %}
+
+
+{% block body %}
+<div class="card">
+    <div class="card-body border-top">
+        <!-- .form -->
+        <form method="POST" action='{{ url_for("edit_product", id=p.product_id) }}'>
+          <!-- .fieldset -->
+          <fieldset>
+            <legend>Edit product</legend> <!-- .form-group -->
+            <div class="row">
+                
+                  {% with msg = get_flashed_messages() %}
+                  {% if msg %}
+                  {% for  msgs in msg %}
+                      <div class='alert alert-success col-md-12' id="msg">
+                          <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                          <span aria-hidden='true'>&times;</span>
+                          </button> {{ msg }} 
+                      </div>
+                  {% endfor %}
+                  {% endif %}
+                  {% endwith %}
+               
+              
+
+                <div class="form-group col-md-12">
+                    <div class="form-label-group">
+                      <input type="text" class="form-control" name='pname' placeholder="Company ID" required autocomplete="off" value="{{ p.product_name }}" minlength="5" maxlength="30"> <label for="fl3">Product name</label>
+                    </div>
+                </div><!-- /.form-group -->
+
+                <div class="form-group col-md-12">
+                    <label for="">Product description</label>
+                    <div class="card card-fluid">
+                        <!-- #summernote-basic -->
+                        <textarea name="pdesc" required data-toggle="summernote" data-placeholder="Write here..." data-height="70" minlength='30' maxlength='200'>
+                          {{ p.description }}
+                        </textarea>
+                    </div><!-- /.card -->
+
+                </div>
+                
+                <div class="form-group col-md-6">
+                  <label for="">Manufactured date</label>
+                  <input type="date" name="mandate" id="" class="form-control" required value="{{ p.man_date }}">
+                </div><!-- /.form-group -->
+
+                <div class="form-group col-md-6">
+                  <label for="">Expire date</label>
+                  <input type="date" name="expdate" class="form-control" required value="{{ p.exp_date }}">
+                </div><!-- /.form-group -->
+
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Update product" class="btn btn-primary">
+            </div><!-- /.form-group -->
+          </fieldset><!-- /.fieldset -->
+        </form><!-- /.form -->
+
+      
+    
+      </div><!-- /.card-body -->
+    </div><!-- /.card -->
+
+
+    
+
+{% endblock %}
+
+
+

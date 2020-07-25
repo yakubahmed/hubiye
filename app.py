@@ -148,7 +148,7 @@ def product():
         #return send_file(filename,as_attachment=True)
 
         status='active'
-        if db.execute("INSERT INTO tbl_product (product_name, comp_id, description, man_date, exp_date, status, product_code ) VALUES(:pname, :cid, :des, :mdate, :edate, :status, :pcode)",{"pname":pname, "cid":com_id, "des":pdesc, "mdate":mdate, "edate":edate, "status":status, "pcode":pname+str(pcode)+'.png'}):
+        if db.execute("INSERT INTO tbl_product (product_name, comp_id, description, man_date, exp_date, status, product_code ) VALUES(:pname, :cid, :des, :mdate, :edate, :status, :pcode)",{"pname":pname, "cid":com_id, "des":pdesc, "mdate":mdate, "edate":edate, "status":status, "pcode":str(pcode)}):
             db.commit()
             send_file(filename,as_attachment=True)
             flash('Product added successfully')
@@ -156,6 +156,31 @@ def product():
 
         
     return render_template('add-new-product.html',  products=products)
+
+@app.route('/admin/dele-productt/<int:id>')
+def delete_product(id):
+   
+    if db.execute("DELETE FROM tbl_product WHERE product_id=:pid", {'pid':id}):
+        db.commit()
+        flash('Product deleted successfully')
+        return redirect(url_for('product'))
+
+@app.route('/admin/edit-product/<int:id>', methods=['POST','GET'])
+def edit_product(id):
+    p = db.execute("SELECT * FROM tbl_product WHERE product_id=:pid", {'pid':id}).fetchone()    
+    if request.method == "POST":
+        com_id = session.get("comp_id")
+        pname = request.form.get('pname')
+        pdesc = request.form.get('pdesc')
+        edate = request.form.get('expdate')
+        mdate = request.form.get('expdate')
+        if db.execute("UPDATE tbl_product SET product_name=:pn, description=:d, man_date=:md, exp_date=:ed WHERE product_id=:id",{"pn":pname, "d":pdesc, "md":mdate, 'ed':edate, 'id':id}):
+            db.commit()
+            flash('Product detail updated successfully')
+            return redirect(url_for('product'))
+        
+
+    return render_template('edit-product.html', p=p)
 
 @app.route('/admin/product/barcode/<int:id>', methods=['POST','GET'])
 def product_barcode(id):
@@ -336,7 +361,7 @@ def users():
     fullname =  request.form.get('fname')
     email = request.form.get('email')
     id = session['user_id']
-    users  =  db.execute("SELECT * FROM tbl_login WHERE user_id !=:id",{"id":id}).fetchall()
+    users  =  db.execute("SELECT * FROM tbl_login WHERE user_id !=:id AND user_type=:ut ",{"id":id,"ut":'admin'}).fetchall()
     if request.method == "POST":
         if db.execute("SELECT * FROM tbl_login WHERE email_address=:email",{"email":email}).fetchone():
             flash('The email that you entered is already taken please try another one')
@@ -452,15 +477,23 @@ def change_image():
     if request.method == "POST":
         uimage = request.files['pimage']
         image = request.form.get('pimage')
-        id = session['user_id']
-        
-        if db.execute("UPDATE tbl_login SET profile_image=:p WHERE user_id=:id", {'p':uimage.filename, 'id':id}):
-            flash('Profile updated successfully')
-            return redirect(url_for('logout'))
-        file = request.files['pimage']
+        id = session.get("user_id")
+
+
+        file = request.files['pimage']            
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(UPLOAD_FOLDER, filename))
+            if db.execute("UPDATE tbl_login SET profile_image=:p WHERE user_id=:id", {'p':uimage.filename, 'id':id}):
+                db.commit()
+                flash('Profile updated successfully')
+                return redirect(url_for('logout'))
+        else:
+            flash('The file type you choose is not allowed')
+
+        
+
+
 
     return ""
 
@@ -528,6 +561,11 @@ def new_password(key):
             return redirect(url_for('login'))
 
     return render_template('new-password.html', key=key)
+
+@app.route('/company-description/<int:comp_id>')
+def com_descript(comp_id):
+    
+    return render_template('company-description.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
