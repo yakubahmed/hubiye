@@ -144,7 +144,7 @@ def product():
         qr = pyqrcode.create(code)
         qr.png('static/images/'+pname+str(pcode)+'.png',scale = 2)
 
-        filename = 'static/images/'+pname+str(pcode)+'.png'
+        filename = 'static/images/'str(pcode)+'.png'
         #return send_file(filename,as_attachment=True)
 
         status='active'
