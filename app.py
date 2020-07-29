@@ -142,9 +142,9 @@ def product():
         #qrgen(tex)
         code = "https://hubiye.herokuapp.com/product-description/"+str(pcode)
         qr = pyqrcode.create(code)
-        qr.png('static/images/'+pname+str(pcode)+'.png',scale = 2)
+        qr.png('static/images/'+str(pcode)+'.png',scale = 2)
 
-        filename = 'static/images/'str(pcode)+'.png'
+        filename = 'static/images/'+str(pcode)+'.png'
         #return send_file(filename,as_attachment=True)
 
         status='active'
