@@ -148,7 +148,7 @@ def product():
         #return send_file(filename,as_attachment=True)
 
         status='active'
-        if db.execute("INSERT INTO tbl_product (product_name, comp_id, description, man_date, exp_date, status, product_code ) VALUES(:pname, :cid, :des, :mdate, :edate, :status, :pcode)",{"pname":pname, "cid":com_id, "des":pdesc, "mdate":mdate, "edate":edate, "status":status, "pcode":str(pcode)+'png'}):
+        if db.execute("INSERT INTO tbl_product (product_name, comp_id, description, man_date, exp_date, status, product_code ) VALUES(:pname, :cid, :des, :mdate, :edate, :status, :pcode)",{"pname":pname, "cid":com_id, "des":pdesc, "mdate":mdate, "edate":edate, "status":status, "pcode":str(pcode)+'.png'}):
             db.commit()
             send_file(filename,as_attachment=True)
             flash('Product added successfully')
