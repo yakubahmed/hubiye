@@ -4,6 +4,9 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='admin/css/buttons.bootstrap4.min.css') }}"><!-- END PLUGINS STYLES -->
 
 {% block body %}
+{%  if session['user_type'] != 'admin' %}
+    <script> window.location = '/' </script>
+{% endif %}
 <div class="card">
 <div class="card-body border-top">
     <!-- .form -->

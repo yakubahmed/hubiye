@@ -83,53 +83,33 @@ s0.parentNode.insertBefore(s1,s0);
 <div class="container">
     <div class="row">
         <div class="col-md-12 my-4">
-            <div class="table-responsive">
-                <table class="table table-bordered" border='2'>
-                    {% if product %}
-                        <thead>
-                            <tr>
-                                <th>Product name: </th>
-                                <th> <i>{{ product.product_name }}</i> </th>
-                                <th>Company: </th>
-                                <th> <i><a href="">{{ product.comp_name }}</a></i> </th>
-                            </tr>
-                        </thead>
-                       
-                        <thead>
-                            <tr>
-                                <th colspan="4">Product description</th>
-                            </tr>
-                            <tr>
-                                <td colspan="4">
-                                {{ product.description }}
-                                </td>
-                            </tr>
-                        </thead>
-                        <tfoot>
-                            <tr>
-                                <th>Manufactured date: </th>
-                                <th> <i>{{ product.man_date }}</i> </th>
-                                <th>Expire date</th>
-                                <th><i>{{ product.exp_date }}</i></th>
-                            </tr>
-                        </tfoot>
-                        {% else %}
-                        <thead> 
-                            <tr>
-                                <th colspan='4'> <strong> <h1>Not found.</h1> </strong> </th>
-                            </tr>    
-                        </thead>
-                    {% endif %}
+            <div class="card shadow">
 
-                </table>
+                <div class="card-body">
+                    {% if product %}
+                        <h3 > {{ product.product_name }} <small><< {{ product.comp_name }} >></small> </h3>
+                        <hr>
+                        <p>
+                            {{ product.description|safe }}
+                            
+                    
+                            <strong>Manufactured date: <i>{{ product.man_date }}</i></strong> <br>
+                            <strong>Expire  date: <i>{{ product.exp_date }}</i></strong> 
+                        </p>
+
+                    <a href="{{ url_for('com_descript', comp_id=product.comp_id) }}" class='btn btn-lg btn-info'> Get more detail about the company >></a>
+                   {% endif %}
+                </div>
+
             </div>
+  
         </div>
     </div>
 </div>
 
 
 <div class="fixed-bottom  margin-top:4%:" style="width:100%; height:50px; padding: .7% 1%;background-color: rgb(43, 26, 26);">
-    <p class='text-light text-center'> <strong>Hubiye.</strong> Developed by Yakub & Abdulkadir </p>
+    <p class='text-light text-center'> <strong>Hubiye.</strong> Developed by Yakub & Abdulkadir at SIMAD </p>
 </div>
 </body>
 

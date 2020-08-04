@@ -68,6 +68,22 @@ def login():
         pwd  =  request.form.get('Password')
         login =  db.execute('SELECT * FROM tbl_login WHERE usename=:uname and password =:pwd', {'uname':uname, 'pwd':pwd}).fetchone()
         if login is not None:
+            if db.execute("SELECT * FROM tbl_2stepverification WHERE account_id="+str(login.user_id)+' AND enabled=:en', {'en':'Yes'}).fetchone():
+                code = random.randint(4,10000)+login.user_id*2+2-1
+
+                db.execute("UPDATE tbl_2stepverification SET code =:code ",{'code':code})
+                db.commit()
+
+                msg = Message("Hubiye Login",
+                sender=('Hubiye', "hubiye@somteso.com"),
+                recipients=[login.email_address])
+                msg.body = "Hubiye Login"
+                msg.html = "Asc <b>" + login.usename +"</b>, si aad system ka u gasho number kan hoos ku qoran geli. <b> " + str(code) + " </b>  "
+                mail.send(msg)
+
+
+                return redirect(url_for('auth_user', user_id=login.user_id))
+
             session['user_id'] = login['user_id']
             session['fname'] = login['fullname']
             session['mail'] = login['email_address']
@@ -148,7 +164,11 @@ def product():
         #return send_file(filename,as_attachment=True)
 
         status='active'
+<<<<<<< HEAD
+        if db.execute("INSERT INTO tbl_product (product_name, comp_id, description, man_date, exp_date, status, product_code ) VALUES(:pname, :cid, :des, :mdate, :edate, :status, :pcode)",{"pname":pname, "cid":com_id, "des":pdesc, "mdate":mdate, "edate":edate, "status":status, "pcode":pname+str(pcode)+'.png'}):
+=======
         if db.execute("INSERT INTO tbl_product (product_name, comp_id, description, man_date, exp_date, status, product_code ) VALUES(:pname, :cid, :des, :mdate, :edate, :status, :pcode)",{"pname":pname, "cid":com_id, "des":pdesc, "mdate":mdate, "edate":edate, "status":status, "pcode":str(pcode)+'.png'}):
+>>>>>>> 1f0bafcec2aa90a79263ad4b66c6100786c34b5e
             db.commit()
             send_file(filename,as_attachment=True)
             flash('Product added successfully')
@@ -465,7 +485,7 @@ def update_pwd():
                 flash('New password and confirm password does not match')
         else:
             flash('invalid password')
-    return render_template('user-setting.html')
+    return render_template('security.html')
     
 @app.route('/product-description/<p_code>')
 def pro_des(p_code):
@@ -564,9 +584,55 @@ def new_password(key):
 
 @app.route('/company-description/<int:comp_id>')
 def com_descript(comp_id):
-    
-    return render_template('company-description.html')
+    company = db.execute("SELECT * FROM view_company WHERE comp_id=:id ", {'id':comp_id}).fetchone()
+    return render_template('company-description.html', company=company)
 
+@app.route('/admin/security', methods=['POST','GET'])
+def security():
+    user_id = session.get("user_id")
+    auth = db.execute("SELECT * FROM tbl_2stepverification WHERE account_id=:id", {'id':user_id}).fetchone()
+
+    if request.method == "POST":
+        enabled = request.form.get('enabled')
+
+        if auth is not None:
+            if enabled == 'Yes':
+                if db.execute("UPDATE tbl_2stepverification SET enabled=:en WHERE account_id=:id", {'en':enabled, 'id':user_id}):
+                    db.commit()
+                    flash('Two-step Authentication is enabled successfully')
+                    return redirect(url_for('security'))
+            if db.execute("UPDATE tbl_2stepverification SET enabled=:en WHERE account_id=:id", {'en':enabled, 'id':user_id}):
+                db.commit()
+                flash('Two-step Authentication is disabled successfully')
+                return redirect(url_for('security'))
+        else:        
+            if db.execute('INSERT INTO tbl_2stepverification (enabled, account_id) VALUES(:en, :aid)', {'en':enabled, 'aid':user_id}):
+                db.commit()
+                flash('you have successfully enabled two-step authencation, next time you login it will send a code to your emal')
+                return redirect(url_for('security'))
+        
+
+    return render_template('security.html', auth=auth)
+
+@app.route('/login-auth/<user_id>', methods=['POST','GET'])
+def auth_user(user_id):
+    #user_id = session.get("user_id")
+    authuser = db.execute("SELECT * FROM tbl_login WHERE user_id=:id", {'id':user_id}).fetchone()
+    if request.method == "POST":
+        code = request.form.get('code')
+        if db.execute("SELECT * FROM tbl_2stepverification WHERE code=:c AND account_id=:id", {'c':code, 'id':authuser.user_id}).fetchone():
+            db.execute("UPDATE tbl_2stepverification SET code=NULL WHERE account_id=:id", {'id':user_id})
+            db.commit()
+            session['user_id'] = authuser['user_id']
+            session['fname'] = authuser['fullname']
+            session['mail'] = authuser['email_address']
+            session['uname'] = authuser['usename']
+            session['pimage'] = authuser['profile_image']
+            session['comp_id'] = authuser['acc_id']
+            session['user_type'] = authuser['user_type']
+            return redirect(url_for('admin'))
+        flash('invalid access code')
+    return render_template('authentication.html', authuser=authuser)
 if __name__ == "__main__":
     app.run(debug=True)
 

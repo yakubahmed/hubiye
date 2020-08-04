@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,7 +40,7 @@ html, body{
         color:blue;
     }  
 </style>
-<title>Hubiye - Company Description</title>
+<title>Hubiye - Company description</title>
 
 
 
@@ -69,7 +70,7 @@ s0.parentNode.insertBefore(s1,s0);
         <div class="collapse navbar-collapse " id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
 
-
+        
             
             </ul>
             
@@ -78,52 +79,45 @@ s0.parentNode.insertBefore(s1,s0);
 
 </nav>
 
-
 <div class="container">
     <div class="row">
         <div class="col-md-12 my-4">
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr class='bg-info text-light'>
-                            <th>Company name</th>
-                            <th>Type </th>
-                            <th>Address</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Somtes</td>
-                            <td>Small scale</td>
-                            <td>Heliwa </td>
-                        </tr>
-                    </tbody>
-                    <thead>
-                        <tr>
-                            <th colspan="3">Company description </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="3">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis quis, nobis quisquam beatae corporis maiores? Sequi et impedit quia tempore! Aliquid voluptates quo distinctio deleniti eligendi praesentium facere animi eum.
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <th colspan="2">Phone number</th>
-                        <th >432525234</th>
-                    </tfoot>
-                  
-                </table>
+            <div class="card shadow">
+
+                <div class="card-body">
+                    {% if company %}
+                        <h3> <strong>{{ company.comp_name }}</strong> </h3>
+                        <hr>
+                        <p>
+                            {{ company.comp_description|safe }}
+                            
+                            <strong>Contact us: </strong> 
+                            <address>
+                                <i>
+                                    Phone number: {{ company.comp_phone }},<br>
+                                    Address: {{ company.comp_address }}<br>
+                                </i>
+                            </address>
+                        </p>
+                    {% else %}
+                    <center>
+                        <h1 style='font-size: 300px;' >
+                            <span class='text-danger'>4</span><span class='text-warning'>04</span>
+                        </h1> 
+                        <hr>
+                    </center>
+                    {% endif %}
+                </div>
+
             </div>
+  
         </div>
     </div>
 </div>
 
 
 <div class="fixed-bottom  margin-top:4%:" style="width:100%; height:50px; padding: .7% 1%;background-color: rgb(43, 26, 26);">
-    <p class='text-light text-center'> <strong>Hubiye.</strong> Developed by Yakub & Abdulkadir </p>
+    <p class='text-light text-center'> <strong>Hubiye.</strong> Developed by Yakub & Abdulkadir at SIMAD </p>
 </div>
 </body>
 

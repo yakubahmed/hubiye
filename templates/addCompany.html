@@ -4,7 +4,9 @@
 
 
 {% block body %}
-
+{%  if session['user_type'] != 'admin' %}
+    <script> window.location = '/' </script>
+{% endif %}
 
 <div class="section-block">
   <!-- Default Steps -->
