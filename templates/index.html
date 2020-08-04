@@ -92,12 +92,13 @@ s0.parentNode.insertBefore(s1,s0);
                         <p>
                             {{ product.description|safe }}
                             
+				<br>
                     
                             <strong>Manufactured date: <i>{{ product.man_date }}</i></strong> <br>
                             <strong>Expire  date: <i>{{ product.exp_date }}</i></strong> 
                         </p>
 
-                    <a href="{{ url_for('com_descript', comp_id=product.comp_id) }}" class='btn btn-lg btn-info'> Get more detail about the company >></a>
+                    <a href="{{ url_for('com_descript', comp_id=product.comp_id) }}" class='btn btn-lg btn-info'> Company detail</a>
                    {% endif %}
                 </div>
 
