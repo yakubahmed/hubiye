@@ -101,7 +101,7 @@ def login():
 @login_required
 def company_type():
     cname = request.form.get('comp_type_name')
-    companies_t = db.execute("SELECT * FROM tbl_company_type")
+    companies_t = db.execute("SELECT * FROM tbl_company_type").fetchall()
     if request.method == "POST":
         if db.execute("SELECT * FROM tbl_company_type WHERE name=:name",{"name":cname}).fetchone():
             flash("SORRY you can not add same category name twice. try another one.")
