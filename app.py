@@ -23,11 +23,11 @@ qrcode = QRcode(app)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 mail  = Mail(app)
-app.config['MAIL_SERVER']='mail.covid19-so.com'
+app.config['MAIL_SERVER']='mail.yakubahmed.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_USERNAME'] = 'hubiye@covid19-so.com'
-app.config['MAIL_PASSWORD'] = 'Me.Yakub@2019'
+app.config['MAIL_USERNAME'] = 'hello@yakubahmed.com'
+app.config['MAIL_PASSWORD'] = 'Password@Ahmed!@#2019'
 mail  = Mail(app)
 
 # Check for environment variable
@@ -75,7 +75,7 @@ def login():
                 db.commit()
 
                 msg = Message("Hubiye Login",
-                sender=('Hubiye', "hubiye@somteso.com"),
+                sender=('Hubiye', "hello@yakubahmed.com"),
                 recipients=[login.email_address])
                 msg.body = "Hubiye Login"
                 msg.html = "Asc <b>" + login.usename +"</b>, si aad system ka u gasho number kan hoos ku qoran geli. <b> " + str(code) + " </b>  "
@@ -305,7 +305,7 @@ def add_new_comp():
             db.commit()
             if company:
                 msg = Message("Welcome to Hubiye",
-                sender=('Hubiye', "hubiye@somteso.com"),
+                sender=('Hubiye', "hello@yakubahmed.com"),
                 recipients=[remail])
                 msg.body = "Welcome to Hubiye"
                 msg.html = "Asc <b>" + cname +"</b>, ku soo dhawaaw hubiye app. si aad isku diiwan geliso fur lifaaqa hoose. \
@@ -389,8 +389,8 @@ def users():
             db.execute("INSERT INTO tbl_login (fullname,email_address, ver_code, status, user_type) VALUES (:fname,:mail,:vcode, 'active', 'admin')", {"fname":fullname,"mail":email, "vcode":code})
             db.commit()
             msg = Message("Welcome to Hubiye",
-                sender=('Hubiye', "hubiye@somteso.com"),
-                recipients=[email])
+                sender=('Hubiye', "hello@yakubahmed.com"),
+                recipients=[email])akubah
             msg.body = "Welcome to Hubiye"
             msg.html = "Asc <b>" + fullname +"</b>, ku soo dhawaaw hubiye app. si aad isku diiwan geliso fur lifaaqa hoose. \
                 <br> <a  href='https://hubiye.herokuapp.com/new-user/"  + code + "'>Click here<a>"
@@ -522,7 +522,7 @@ def forgot_username():
         user = db.execute('SELECT * FROM tbl_login WHERE email_address=:e', {'e':email}).fetchone()
         if user is not None:
             msg = Message("Username reset request",
-            sender=('Hubiye', "hubiye@somteso.com"),
+            sender=('Hubiye', "hello@yakubahmed.com"),
             recipients=[email])
             msg.body = "Username reset Hubiye"
             msg.html = "Hello  <b>" + user.fullname +"</b>, you requested username reset. <br> \
@@ -547,7 +547,7 @@ def forgot_password():
             code = db.execute("UPDATE tbl_login SET ver_code=:vcode WHERE email_address=:e", {'vcode':vcode,'e':email})
             db.commit()
             msg = Message("Password reset request",
-            sender=('Hubiye', "hubiye@somteso.com"),
+            sender=('Hubiye', "hello@yakubahmed.com"),
             recipients=[email])
             msg.body = "Password reset Hubiye"
             msg.html = "Hello  <b>" + user.fullname +"</b>, you requested password reset. <br> \
