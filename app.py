@@ -390,7 +390,7 @@ def users():
             db.commit()
             msg = Message("Welcome to Hubiye",
                 sender=('Hubiye', "hello@yakubahmed.com"),
-                recipients=[email])akubah
+                recipients=[email])
             msg.body = "Welcome to Hubiye"
             msg.html = "Asc <b>" + fullname +"</b>, ku soo dhawaaw hubiye app. si aad isku diiwan geliso fur lifaaqa hoose. \
                 <br> <a  href='https://hubiye.herokuapp.com/new-user/"  + code + "'>Click here<a>"
